@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Research Assistant | Junaid Zulfiqar</title>
+<meta name="description" content="AI Research Assistant powered by n8n and AI.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#070b14;--card:rgba(17,24,39,.72);--border:rgba(255,255,255,.09);--text:#f8fafc;--muted:#94a3b8;--primary:#6366f1;--secondary:#8b5cf6}
+body{font-family:Inter,Arial,Helvetica,sans-serif;background:radial-gradient(circle at 10% 10%,rgba(99,102,241,.16),transparent 28%),radial-gradient(circle at 90% 20%,rgba(139,92,246,.13),transparent 25%),var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
+.container{width:min(1120px,92%);margin:auto}
+nav{padding:22px 0;border-bottom:1px solid var(--border);backdrop-filter:blur(14px);background:rgba(7,11,20,.55);position:sticky;top:0;z-index:100}
+.nav-content{display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:20px;font-weight:800}.logo span{color:#8b5cf6}
+.nav-badge{border:1px solid var(--border);padding:7px 14px;border-radius:30px;color:var(--muted);font-size:13px;background:rgba(255,255,255,.03)}
+.hero{text-align:center;padding:80px 0 50px}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:8px 15px;border-radius:30px;background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.25);color:#a5b4fc;font-size:13px;margin-bottom:22px}
+.badge-dot{width:7px;height:7px;background:#22c55e;border-radius:50%;box-shadow:0 0 10px #22c55e}
+.hero h1{font-size:clamp(38px,6vw,68px);line-height:1.05;letter-spacing:-2.5px;margin-bottom:20px}
+.gradient-text{background:linear-gradient(90deg,#818cf8,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{max-width:680px;margin:auto;color:var(--muted);font-size:17px}
+.research-box{max-width:900px;margin:35px auto 0;padding:10px;border-radius:18px;background:rgba(17,24,39,.82);border:1px solid var(--border);box-shadow:0 25px 80px rgba(0,0,0,.35);display:flex;gap:10px}
+.research-box input{flex:1;border:none;outline:none;background:transparent;color:white;padding:17px;font-size:15px}
+.research-box input::placeholder{color:#64748b}
+.research-box button{border:none;border-radius:12px;padding:0 25px;color:white;font-size:14px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,var(--primary),var(--secondary));transition:.25s}
+.research-box button:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(99,102,241,.3)}
+.research-box button:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.examples{margin-top:18px;color:#64748b;font-size:13px}.example{color:#818cf8;cursor:pointer;margin-left:8px}
+.loading{display:none;text-align:center;padding:50px 0}.spinner{width:42px;height:42px;border:3px solid rgba(255,255,255,.1);border-top-color:#818cf8;border-radius:50%;animation:spin .8s linear infinite;margin:auto auto 15px}
+@keyframes spin{to{transform:rotate(360deg)}}.loading p{color:var(--muted);font-size:14px}
+#results{display:none;padding:35px 0 80px}.result-header{text-align:center;margin-bottom:30px}.result-header h2{font-size:30px;margin-bottom:8px}.result-question{color:var(--muted);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:25px;backdrop-filter:blur(15px);box-shadow:0 12px 35px rgba(0,0,0,.16)}.card.full{grid-column:1/-1}
+.card h3{font-size:17px;margin-bottom:13px;display:flex;align-items:center;gap:10px}.icon{width:31px;height:31px;display:grid;place-items:center;border-radius:9px;background:rgba(99,102,241,.13);font-size:15px}
+.card p,.card li{color:#cbd5e1;font-size:14px}.card ul{padding-left:19px}.card li{margin:8px 0}
+.sources{display:flex;flex-direction:column;gap:10px}.source{padding:13px 15px;border-radius:10px;background:rgba(255,255,255,.035);border:1px solid var(--border);transition:.2s}.source:hover{border-color:rgba(129,140,248,.4)}
+.source-title{color:#e2e8f0;font-size:13px;font-weight:600;display:block;margin-bottom:3px}.source-url{color:#818cf8;font-size:12px;word-break:break-all}
+.error{display:none;max-width:700px;margin:30px auto;padding:17px 20px;border-radius:12px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);color:#fca5a5;text-align:center;font-size:14px}
+footer{border-top:1px solid var(--border);padding:28px 0;text-align:center;color:#64748b;font-size:13px}footer strong{color:#cbd5e1}.footer-sub{margin-top:5px;font-size:12px}
+@media(max-width:700px){.hero{padding:55px 0 35px}.hero h1{letter-spacing:-1.5px}.research-box{flex-direction:column;padding:8px}.research-box button{height:50px}.grid{grid-template-columns:1fr}.card.full{grid-column:auto}.nav-badge{display:none}}
+</style>
+</head>
+<body>
+<nav><div class="container nav-content"><div class="logo">JUNAID<span>.</span></div><div class="nav-badge">Day 11 • AI Automation Challenge</div></div></nav>
+
+<main>
+<section class="hero"><div class="container">
+<div class="badge"><span class="badge-dot"></span>AI Research Engine Online</div>
+<h1>AI Research<br><span class="gradient-text">Assistant</span></h1>
+<p>Ask any research question and get a structured, AI-powered research report with key findings, insights, challenges, and sources.</p>
+<div class="research-box">
+<input type="text" id="question" placeholder="What would you like to research?" autocomplete="off">
+<button id="researchBtn" onclick="startResearch()">🔍 Research</button>
+</div>
+<div class="examples">Try:
+<span class="example" onclick="setExample('What are the latest applications of AI in healthcare?')">AI in Healthcare</span>
+<span class="example" onclick="setExample('How is artificial intelligence changing education?')">AI in Education</span>
+</div>
+</div></section>
+
+<section class="loading" id="loading"><div class="container"><div class="spinner"></div><p>Researching the web and analyzing information...</p></div></section>
+<div class="container"><div class="error" id="error"></div></div>
+
+<section id="results"><div class="container">
+<div class="result-header"><h2>Research Report</h2><div class="result-question" id="resultQuestion"></div></div>
+<div class="grid">
+<div class="card full"><h3><span class="icon">📋</span>Executive Summary</h3><p id="summary"></p></div>
+<div class="card"><h3><span class="icon">🔎</span>Key Findings</h3><ul id="findings"></ul></div>
+<div class="card"><h3><span class="icon">💡</span>Important Insights</h3><ul id="insights"></ul></div>
+<div class="card"><h3><span class="icon">🚀</span>Opportunities & Benefits</h3><ul id="opportunities"></ul></div>
+<div class="card"><h3><span class="icon">⚠️</span>Challenges & Limitations</h3><ul id="challenges"></ul></div>
+<div class="card full"><h3><span class="icon">✅</span>Conclusion</h3><p id="conclusion"></p></div>
+<div class="card full"><h3><span class="icon">🔗</span>Sources</h3><div class="sources" id="sources"></div></div>
+</div></div></section>
+</main>
+
+<footer><div class="container">© 2026 All Rights Reserved<div class="footer-sub">Developed by <strong>Junaid Zulfiqar</strong></div></div></footer>
+
+<script>
+const WEBHOOK_URL="https://junaidzulfiqarrr.app.n8n.cloud/webhook/AI-RESEARCH";
+
+function setExample(text){document.getElementById("question").value=text;document.getElementById("question").focus()}
+
+async function startResearch(){
+const input=document.getElementById("question"),button=document.getElementById("researchBtn"),loading=document.getElementById("loading"),results=document.getElementById("results"),errorBox=document.getElementById("error"),question=input.value.trim();
+if(!question){showError("Please enter a research question first.");input.focus();return}
+errorBox.style.display="none";results.style.display="none";loading.style.display="block";button.disabled=true;button.textContent="Researching...";
+try{
+const response=await fetch(WEBHOOK_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({question})});
+if(!response.ok)throw new Error(`Server returned ${response.status}`);
+const data=await response.json();displayResults(data,question);
+}catch(error){console.error(error);showError("Unable to complete the research. Please check your n8n workflow and try again.")}
+finally{loading.style.display="none";button.disabled=false;button.textContent="🔍 Research"}
+}
+
+function displayResults(data,question){
+document.getElementById("resultQuestion").textContent=question;
+document.getElementById("summary").textContent=data.executive_summary||data.summary||"No summary available.";
+renderList("findings",data.key_findings);renderList("insights",data.important_insights);renderList("opportunities",data.opportunities);renderList("challenges",data.challenges);
+document.getElementById("conclusion").textContent=data.conclusion||"No conclusion available.";renderSources(data.sources);
+document.getElementById("results").style.display="block";document.getElementById("results").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function renderList(id,items){
+const el=document.getElementById(id);el.innerHTML="";
+if(!Array.isArray(items)||!items.length){const li=document.createElement("li");li.textContent="No information available.";el.appendChild(li);return}
+items.forEach(item=>{const li=document.createElement("li");li.textContent=typeof item==="string"?item:JSON.stringify(item);el.appendChild(li)})
+}
+
+function renderSources(sources){
+const container=document.getElementById("sources");container.innerHTML="";
+if(!Array.isArray(sources)||!sources.length){container.innerHTML="<p>No sources available.</p>";return}
+sources.forEach(source=>{const div=document.createElement("div");div.className="source";const title=document.createElement("span");title.className="source-title";title.textContent=source.title||"Research Source";const url=document.createElement("a");url.className="source-url";url.href=source.url||"#";url.target="_blank";url.rel="noopener noreferrer";url.textContent=source.url||"";div.appendChild(title);div.appendChild(url);container.appendChild(div)})
+}
+
+function showError(message){const errorBox=document.getElementById("error");errorBox.textContent=message;errorBox.style.display="block";errorBox.scrollIntoView({behavior:"smooth",block:"center"})}
+document.getElementById("question").addEventListener("keydown",e=>{if(e.key==="Enter")startResearch()});
+</script>
+</body>
+</html>
